@@ -18,7 +18,7 @@ Just run it without arguments for interactive menus.
 Dependencies
 ------------
 
-- fzf
+- fzf>=0.19.0
 - curl
 - GNU wget
 - zsh
