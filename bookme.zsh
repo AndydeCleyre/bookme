@@ -42,7 +42,7 @@ bookme () {  # [--procs <number of simultaneous downloads>] [--format epub|pdf|b
     local -A books=($reply)
     local choices=(Some All) wishlist=()
     local choice=$(
-        fzf --reverse --phony --header="$header" --prompt='Download *all* (~11GB!) or *some* of the textbooks?' <<<${(F)choices}
+        fzf --reverse --phony --header="$header" --prompt='Download *all* (>11GB!) or *some* of the textbooks?' <<<${(F)choices}
     )
     if [[ $choice == All ]]; then
         wishlist=(${(v)books})
@@ -152,17 +152,24 @@ bookme () {  # [--procs <number of simultaneous downloads>] [--format epub|pdf|b
 .bookme_get_rows () {  # [<textbooks.csv>]
     emulate -L zsh
     local csv=${1:a}
+    local download_covid='Download the Covid 19 list to "covid19_textbooks.csv"'
+    local download_openaccess='Download the Open Access list to "openacess_textbooks.csv"'
     if [[ ! $csv ]]; then
-        local choices=('Download the master list to "textbooks.csv"' *csv(N:a) 'Quit')
+        local choices=($download_covid $download_openaccess *csv(N:a) 'Quit')
         local choice=$(
             fzf --reverse --phony --prompt='No textbooks.csv specified. What should we use?' <<<${(F)choices}
         )
         [[ $choice == Quit || ! $choice ]] && return 1
-        if [[ $choice == 'Download the master list to "textbooks.csv"' ]]; then
-            wget -nc -O textbooks.csv \
+        if [[ $choice == $download_covid ]]; then
+            wget -nc -O covid19_textbooks.csv \
                 'https://link.springer.com/search/csv?facet-content-type=%22Book%22&package=mat-covid19_textbooks' \
                 || return 1
-            csv=textbooks.csv
+            csv=covid19_textbooks.csv
+        elif [[ $choice == $download_openaccess ]]; then
+            wget -nc -O openaccess_textbooks.csv \
+                'https://link.springer.com/search/csv?facet-content-type=%22Book%22&package=openaccess' \
+                || return 1
+            csv=openaccess_textbooks.csv
         else
             csv=${choice:a}
         fi
