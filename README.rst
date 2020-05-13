@@ -13,7 +13,7 @@ __ https://link.springer.com/search?package=mat-covid19_textbooks&facet-content-
 
 Just run it without arguments for interactive menus.
 
-.. image:: https://gist.githubusercontent.com/AndydeCleyre/8fd1110b324df7d5ab84454d14f2b86e/raw/bfde8b008973c731a5149b78a917b92ba4a83628/bookme.svg?sanitize=true
+.. image:: https://gist.githubusercontent.com/AndydeCleyre/8fd1110b324df7d5ab84454d14f2b86e/raw/926a65e3ced0c871999fa03b0a1ef33bbd3d52e1/bookme.svg?sanitize=true
 
 Dependencies
 ------------
