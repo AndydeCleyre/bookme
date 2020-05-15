@@ -112,7 +112,7 @@ bookme () {  # [--procs <number of simultaneous downloads>] [--format epub|pdf|b
             "%F{yellow}${book_id}%f" \
             "%F{blue}${book_type:u}%f" \
             "%F{magenta}${url_info[-1]}%f"
-        print -r " $url"
+        print -r " See https://link.springer.com/book/$book_id"
         return 1
     else
         if wget -q --content-disposition $url; then
@@ -127,7 +127,7 @@ bookme () {  # [--procs <number of simultaneous downloads>] [--format epub|pdf|b
                 "%F{yellow}${book_id}%f" \
                 "%F{blue}${book_type:u}%f" \
                 $? ${${(M)url_info:#$fname_pre*}#$fname_pre}
-            print -r " $url"
+            print -r " See https://link.springer.com/book/$book_id"
             return 1
         fi
     fi
