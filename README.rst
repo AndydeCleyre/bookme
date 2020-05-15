@@ -5,6 +5,8 @@ A handy helper for acquiring the textbooks made `freely available by Springer`__
 
 __ https://link.springer.com/search?package=mat-covid19_textbooks&facet-content-type=%22Book%22
 
+.. warning:: This tool is currently Out of Order, and I don't know that that will change. See [#2 for details](https://github.com/AndydeCleyre/bookme/issues/2).
+
 .. code:: console
 
   $ ./bookme.zsh -h
