@@ -98,19 +98,18 @@ bookme () {  # [--procs <number of simultaneous downloads>] [--format epub|pdf|b
 
 .bookme_get_typed_book () {  # epub|pdf <book-id>
     emulate -L zsh
-    local book_type=$1 url
-    shift
+    local book_type=$1 book_id=$2 url
     local fname_pre='content-disposition: filename='
     if [[ $book_type == pdf ]]; then
-        url="https://link.springer.com/content/pdf/${1//\//%2F}.pdf"
+        url="https://link.springer.com/content/pdf/${book_id//\//%2F}.pdf?javascript-disabled=true"
     else
-        url="https://link.springer.com/download/epub/${1//\//%2F}.epub"
+        url="https://link.springer.com/download/epub/${book_id//\//%2F}.epub?javascript-disabled=true"
     fi
     local url_info=(${(f)"$(curl -I -w '%{http_code}' $url 2>/dev/null)"})
     if [[ $url_info[-1] != 200 ]]; then
         print -rPn \
             '%F{red}FAILURE%f' \
-            "%F{yellow}${1}%f" \
+            "%F{yellow}${book_id}%f" \
             "%F{blue}${book_type:u}%f" \
             "%F{magenta}${url_info[-1]}%f"
         print -r " $url"
@@ -119,13 +118,13 @@ bookme () {  # [--procs <number of simultaneous downloads>] [--format epub|pdf|b
         if wget -q --content-disposition $url; then
             print -rP \
                 '%F{green}SUCCESS%f' \
-                "%F{yellow}${1}%f" \
+                "%F{yellow}${book_id}%f" \
                 "%F{blue}${book_type:u}%f" \
                 ${${(M)url_info:#$fname_pre*}#$fname_pre}
         else
             print -rPn \
                 '%F{red}FAILURE%f' \
-                "%F{yellow}${1}%f" \
+                "%F{yellow}${book_id}%f" \
                 "%F{blue}${book_type:u}%f" \
                 $? ${${(M)url_info:#$fname_pre*}#$fname_pre}
             print -r " $url"
