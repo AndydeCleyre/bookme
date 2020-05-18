@@ -19,7 +19,6 @@ Dependencies
 ------------
 
 - fzf>=0.19.0
-- curl
 - GNU wget
 - zsh
 

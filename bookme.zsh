@@ -65,10 +65,6 @@ bookme () {  # [--procs <number of simultaneous downloads>] [--format epub|pdf|b
         print -u2 'See https://github.com/junegunn/fzf#installation'
         return 1
     fi
-    if (( ! $+commands[curl] )); then
-        print -u2 -P '%F{red}%Bcurl%b required but not found%f'
-        return 1
-    fi
     local need_wget
     if (( ! $+commands[wget] )); then
         need_wget=1
@@ -99,19 +95,20 @@ bookme () {  # [--procs <number of simultaneous downloads>] [--format epub|pdf|b
 .bookme_get_typed_book () {  # epub|pdf <book-id>
     emulate -L zsh
     local book_type=$1 book_id=$2 url
-    local fname_pre='content-disposition: filename='
+    local fname_pre='  Content-Disposition: filename='
     if [[ $book_type == pdf ]]; then
         url="https://link.springer.com/content/pdf/${book_id//\//%2F}.pdf?javascript-disabled=true"
     else
         url="https://link.springer.com/download/epub/${book_id//\//%2F}.epub?javascript-disabled=true"
     fi
-    local url_info=(${(f)"$(curl -I -w '%{http_code}' $url 2>/dev/null)"})
-    if [[ $url_info[-1] != 200 ]]; then
+    local url_info=(${(f)"$(wget -qS --spider $url 2>&1)"})
+    local code=${${(s: :)url_info[1]}[2]}
+    if [[ $code != 200 ]]; then
         print -rPn \
             '%F{red}FAILURE%f' \
             "%F{yellow}${book_id}%f" \
             "%F{blue}${book_type:u}%f" \
-            "%F{magenta}${url_info[-1]}%f"
+            "%F{magenta}${code}%f"
         print -r " See https://link.springer.com/book/$book_id"
         return 1
     else
