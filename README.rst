@@ -3,7 +3,11 @@ bookme
 
 A handy helper for acquiring the textbooks made `freely available by Springer`__ during Covid 19
 
-__ https://link.springer.com/search?package=mat-covid19_textbooks&facet-content-type=%22Book%22
+__ https://link.springer.com/search?package=mat-covid19_textbooks&facet-content-type=%22Book%22&showAll=false
+
+.. note:: At this time, all but one of Springer's Covid 19 package of books has
+   been made unavailable, so this isn't as useful as it once was.
+   But this project does still facilitate access to Springer's Open Access collection.
 
 .. code:: console
 
